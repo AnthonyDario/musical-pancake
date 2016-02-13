@@ -23,22 +23,18 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
 
                 today = datetime.datetime.today()
                 rd = relativedelta(datetime.datetime(2016, 3, 5, 0, 0, 0, 0), today)
-                response = { }
-                response['text'] = str(rd.months)  + ' months ' + \
-                                   str(rd.days)    + ' days ' + \
-                                   str(rd.hours)   + ' hours ' + \
-                                   str(rd.minutes) + ' minutes ' + \
-                                   str(rd.seconds) + ' seconds'
-                response['bot_id'] = self.dario_bot 
-                requests.post(base_url + '/bots/post', data=response)
+                text = str(rd.months)  + ' months ' + \
+                       str(rd.days)    + ' days ' + \
+                       str(rd.hours)   + ' hours ' + \
+                       str(rd.minutes) + ' minutes ' + \
+                       str(rd.seconds) + ' seconds'
+
+                self.bot_post(text)
 
             if re.search("not no", json_request['text'].lower(), flags = 0):
 
                 # say a message
-                response = { }
-                response['text'] = "You're the worst. You need a timeout"
-                response['bot_id'] = self.dario_bot
-                requests.post(self.base_url + '/bots/post', data=response)
+                self.bot_post("You're the worst, you need a timeout")
 
                 # remove the person
                 sender_id = json_request['sender_id']
@@ -47,7 +43,6 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
 
                 # add the person back with a dumb name
                 self.add(sender_id, "Silly Silly")
-                print response
 
             statement = re.search('banish (\w+) for (\d+)', json_request['text'].lower())
 
@@ -99,6 +94,12 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
 
         response = requests.post(url, data=json.dumps(data))
         
+    def bot_post(self, message):
+        
+        url  = base_url + '/bots/post'
+        data = {'text': message, 'bot_id': self.dario_bot}
+
+        requests.post(url, data=data)
 
 # hosting the server
 HandlerClass = SimpleHTTPRequestHandler
