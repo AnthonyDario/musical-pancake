@@ -49,15 +49,18 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
                 self.add(sender_id, "Silly Silly")
                 print response
 
-            statement = re.search('banish (\w+) for (\d+)', json_request['text'].lower())
+            statement = re.search('banish (.+) for (\d+)', json_request['text'].lower())
 
             if statement:
+	
+                print('if statement')
+                print(statement.group(1))
 
                 # remove the person
-                self.remove(None, statement.group(1))
+                sender_id = self.remove(None, statement.group(1))
 
                 # wait for appropriate amount of time
-                sleep(int(statement.group(2)))
+                time.sleep(int(statement.group(2)))
 
                 # add the person back
                 self.add(sender_id, "The banished")
@@ -66,6 +69,8 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
 
         group_info = requests.get(self.base_url + '/groups/' + self.group_id + \
                                   '?token=' + self.dario_token).json()
+        remove_id = '-1'
+
         if sender_id:
 
             for member in group_info['response']['members']:
@@ -75,7 +80,7 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
         elif name:
            
            for member in group_info['response']['members']:
-               if member['nickname'] == name:
+               if member['nickname'].lower() == name:
                    remove_id = member['id']
                    sender_id = member['user_id']
 
