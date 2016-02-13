@@ -7,18 +7,18 @@ import datetime
 
 class GroupRequestHandler(BaseHTTPRequestHandler):
 
-	def do_POST(self):
+    def do_POST(self):
 
         dario_bot = '9af5b2ffe7a277e4f9f108f8f7'
-		post_url = 'https://api.groupme.com/v3/bots/post'
+        post_url = 'https://api.groupme.com/v3/bots/post'
 
-		length = int(self.headers['Content-Length'])
-		request = self.rfile.read(length)
-		json_request = json.loads(request)
+        length = int(self.headers['Content-Length'])
+        request = self.rfile.read(length)
+        json_request = json.loads(request)
 
-		if json_request['sender_type'] == 'user':
+        if json_request['sender_type'] == 'user':
 
-		    if json_request['text'].lower().strip().replace(".", "") == 'spring break':
+            if json_request['text'].lower().strip().replace(".", "") == 'spring break':
 
                 today = datetime.datetime.today()
                 rd = relativedelta(datetime.datetime(2016, 3, 5, 0, 0, 0, 0), today)
