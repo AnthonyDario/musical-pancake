@@ -45,9 +45,12 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
                 for member in group_info['response']['members']:
                     if member['user_id'] == sender_id:
                         remove_id = member['id']
+		url = base_url + '/groups/' + group_id + '/members/' + remove_id + '/remove' + '?token=' + dario_token
 
-                requests.post(base_url + '/groups/' + group_id + 
-                              'members' + remove_id)
+		print(url)
+                response = requests.post(url)
+
+		print(response)
 
 
 # hosting the server
