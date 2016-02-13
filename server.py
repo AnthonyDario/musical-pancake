@@ -41,20 +41,7 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
 
                 # remove the person
                 sender_id = json_request['sender_id']
-                group_info = requests.get(base_url + '/groups/' + group_id + \
-                                          '?token=' + dario_token).json()
-
-                for member in group_info['response']['members']:
-                    if member['user_id'] == sender_id:
-                        remove_id = member['id']
-
-                url = base_url + '/groups/' + \
-                      group_id + '/members/' + \
-                      remove_id + '/remove' + \
-                      '?token=' + dario_token
-
-                response = requests.post(url)
-
+                remove(self, sender_id)
                 time.sleep(10)
 
                 # add the person back with a dumb name
@@ -63,12 +50,44 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
                       dario_token
 
                 person = {'nickname': 'SO DUMB', 'user_id': str(sender_id)}
-        data   = {'members': [person]}
-        print(url)
-        print data
+                data   = {'members': [person]}
+
+                print(url)
+                print data
 
                 response = requests.post(url, data=json.dumps(data))
                 print response.text
+
+            if statement = re.search('banish (\w+) for (\d+)', json_request['text'].lower()):
+                # remove the person
+
+                # wait for appropriate amount of time
+                sleep(int(statement.group(2)))
+
+                # add the person back
+
+    def remove(self, sender_id, name):
+
+        group_info = requests.get(base_url + '/groups/' + group_id + \
+                                  '?token=' + dario_token).json()
+        if sender_id:
+
+            for member in group_info['response']['members']:
+                if member['user_id'] == sender_id:
+                    remove_id = member['id']
+
+        elif name:
+           
+           for member in group_info['response']['members']:
+               if member['nickname'] == name:
+                   remove_id = member['id']
+
+        url = base_url + '/groups/' + \
+              group_id + '/members/' + \
+              remove_id + '/remove' + \
+              '?token=' + dario_token
+      
+        response = requests.post(url)
 
 # hosting the server
 HandlerClass = SimpleHTTPRequestHandler
