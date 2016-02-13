@@ -46,17 +46,7 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
                 time.sleep(10)
 
                 # add the person back with a dumb name
-                url = self.base_url + '/groups/' + \
-                      self.group_id + '/members/add?token=' + \
-                      self.dario_token
-
-                person = {'nickname': 'SO DUMB', 'user_id': str(sender_id)}
-                data   = {'members': [person]}
-
-                print(url)
-                print data
-
-                response = requests.post(url, data=json.dumps(data))
+                self.add(sender_id, "Silly Silly")
                 print response.text
 
             statement = re.search('banish (\w+) for (\d+)', json_request['text'].lower())
@@ -90,6 +80,18 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
               self.dario_token
       
         response = requests.post(url)
+
+    def add(self, user_id, nickname):
+
+        url = self.base_url + '/groups/' + \
+              self.group_id + '/members/add?token=' + \
+              self.dario_token
+
+        person = {'nickname': nickname, 'user_id': str(sender_id)}
+        data   = {'members': [person]}
+
+        response = requests.post(url, data=json.dumps(data))
+        
 
 # hosting the server
 HandlerClass = SimpleHTTPRequestHandler
