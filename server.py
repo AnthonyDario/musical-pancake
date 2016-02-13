@@ -1,9 +1,7 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 from SimpleHTTPServer import SimpleHTTPRequestHandler
 from dateutil.relativedelta import relativedelta
-import requests
-import datetime
-import json, re
+import requests, datetime, json, re
 
 class GroupRequestHandler(BaseHTTPRequestHandler):
 
@@ -31,7 +29,7 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
                 response['bot_id'] = dario_bot 
                 requests.post(post_url, data=response)
 
-            if re.search("not no", json_request['text'], flags = 0):
+            if re.search("not no", json_request['text'].lower(), flags = 0):
                 response = { }
                 response['text'] = "not no = yes"
                 response['bot_id'] = dario_bot
