@@ -11,6 +11,7 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
 		post_url = 'https://api.groupme.com/v3/bots/post'
 		length = int(self.headers['Content-Length'])
 		request = self.rfile.read(length)
+		print(request)
 		json_request = json.loads(request)
 		if json_request['sender_type'] == 'user' and \
 		   json_request['text'].lower().strip().replace(".", "") == 'spring break':
@@ -27,7 +28,7 @@ HandlerClass = SimpleHTTPRequestHandler
 protocol     = 'HTTP/1.0'
 
 HandlerClass.protocol_version = protocol
-port_number = 54322
+port_number = 55555
 server_address = ('129.22.150.55', port_number)
 httpd = HTTPServer(server_address, GroupRequestHandler)
 print('http server is starting')
