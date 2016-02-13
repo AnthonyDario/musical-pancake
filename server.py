@@ -23,6 +23,12 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
 			response['bot_id'] = '26d1e43f3942fcab2aa1cc68b1'
 			requests.post(post_url, data=response)
 
+#request = requests.get('https://api.groupme.com/v3/groups/:group_id/likes?period=<day|week|month>')
+token = "5f22d5a0b4ba0133affd089a73c6b9e5"
+request = requests.get('https://api.groupme.com/v3/groups?token=' + token)
+print(request)
+
+
 # hosting the server
 HandlerClass = SimpleHTTPRequestHandler
 protocol     = 'HTTP/1.0'
