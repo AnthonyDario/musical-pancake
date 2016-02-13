@@ -39,8 +39,8 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
                 requests.post(base_url + '/bots/post', data=response)
 
                 sender_id = json_request['sender_id']
-                group_info = requests.get(base_url + '/groups/' + group_id + 
-                                          '?token=' + dario_token)
+                group_info = requests.get(base_url + '/groups/' + group_id + \
+                                          '?token=' + dario_token).json()
 
                 for member in group_info['members']:
                     if member['user_id'] == sender_id:
