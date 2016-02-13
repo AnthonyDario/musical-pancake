@@ -7,8 +7,10 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
 
-        dario_bot = '9af5b2ffe7a277e4f9f108f8f7'
-        post_url = 'https://api.groupme.com/v3/bots/post'
+        group_id    = '19764573' 
+        dario_bot   = '9af5b2ffe7a277e4f9f108f8f7'
+        post_url    = 'https://api.groupme.com/v3/bots/post'
+        dario_token = '9dae11a0b4b50133affd089a73c6b9e5'
 
         length = int(self.headers['Content-Length'])
         request = self.rfile.read(length)
@@ -27,13 +29,25 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
                                    str(rd.minutes) + ' minutes ' + \
                                    str(rd.seconds) + ' seconds'
                 response['bot_id'] = dario_bot 
-                requests.post(post_url, data=response)
+                requests.post(base_url + '/bots/post', data=response)
 
             if re.search("not no", json_request['text'].lower(), flags = 0):
+
                 response = { }
                 response['text'] = "not no = yes"
                 response['bot_id'] = dario_bot
                 requests.post(post_url, data=response)
+
+                sender_id = json_request['sender_id']
+                group_info = requests.get(base_url + '/groups/' + group_id + 
+                                          '?token=' + dario_token)
+
+                for member in group_info['members']:
+                    if member['user_id'] == sender_id:
+                        remove_id = member['id']
+
+                requests.post(base_url + '/groups/' + group_id + 
+                              'members' + remove_id)
 
 
 # hosting the server
