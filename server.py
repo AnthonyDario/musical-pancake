@@ -33,8 +33,9 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
 
             if re.search("not no", json_request['text'].lower(), flags = 0):
 
+                # say a message
                 response = { }
-                response['text'] = "not no = yes"
+                response['text'] = "You're the worst. You need a timeout"
                 response['bot_id'] = dario_bot
                 requests.post(base_url + '/bots/post', data=response)
 
@@ -54,7 +55,7 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
 
                 response = requests.post(url)
 
-		time.sleep(10)
+                time.sleep(10)
 
                 # add the person back with a dumb name
                 url = base_url + '/groups/' + \
@@ -62,9 +63,9 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
                       dario_token
 
                 person = {'nickname': 'SO DUMB', 'user_id': str(sender_id)}
-		data   = {'members': [person]}
-		print(url)
-		print data
+        data   = {'members': [person]}
+        print(url)
+        print data
 
                 response = requests.post(url, data=json.dumps(data))
                 print response.text
