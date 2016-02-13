@@ -20,7 +20,7 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
 			rd = relativedelta(datetime.datetime(2016, 3, 5, 0, 0, 0, 0), today)
 			response = { }
 			response['text'] = str(rd.months) + ' months ' + str(rd.days) + ' days ' + str(rd.hours) + ' hours ' + str(rd.minutes) + ' minutes ' + str(rd.seconds) + ' seconds'
-			response['bot_id'] = '9af5b2ffe7a277e4f9f108f8f7'
+			response['bot_id'] = '26d1e43f3942fcab2aa1cc68b1'
 			requests.post(post_url, data=response)
 
 # hosting the server
