@@ -52,6 +52,7 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
                 print(statement.group(1))
 
                 # remove the person
+                self.bot_post(statement.group(1) + ' you are to be banished for ' + statement.group(2) + ' seconds')
                 sender_id = self.remove(None, statement.group(1))
 
                 # wait for appropriate amount of time
@@ -101,7 +102,7 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
         
     def bot_post(self, message):
         
-        url  = base_url + '/bots/post'
+        url  = self.base_url + '/bots/post'
         data = {'text': message, 'bot_id': self.dario_bot}
 
         requests.post(url, data=data)
