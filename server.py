@@ -4,6 +4,7 @@ import requests
 import json
 from dateutil.relativedelta import relativedelta
 import datetime
+import urllib2
 
 class GroupRequestHandler(BaseHTTPRequestHandler):
 
@@ -23,21 +24,30 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
 			response['bot_id'] = '26d1e43f3942fcab2aa1cc68b1'
 			requests.post(post_url, data=response)
 
-#request = requests.get('https://api.groupme.com/v3/groups/:group_id/likes?period=<day|week|month>')
-token = "5f22d5a0b4ba0133affd089a73c6b9e5"
-request = requests.get('https://api.groupme.com/v3/groups?token=' + token)
-print(request)
+			token = "5f22d5a0b4ba0133affd089a73c6b9e5"
+			request = requests.get('https://api.groupme.com/v3/groups/19764573/likes/for_me?token=' + token)
+			numLikes = len(request.json()['response']['messages'])
+			newResponse = {}
+			newResponse['text'] = str(numLikes)
+			newResponse['bot_id'] = '26d1e43f3942fcab2aa1cc68b1'
+			requests.post(post_url, data=newResponse)
+
+#token = "5f22d5a0b4ba0133affd089a73c6b9e5"
+#request = requests.get('https://api.groupme.com/v3/groups/19764573/likes/for_me?token=' + token)
+#request = requests.get('https://api.groupme.com/v3/groups?token=' + token)
+#print(json.load(urllib2.urlopen(request)))
+#print(len(request.json()['response']['messages']))
 
 
 # hosting the server
-HandlerClass = SimpleHTTPRequestHandler
-protocol     = 'HTTP/1.0'
+# HandlerClass = SimpleHTTPRequestHandler
+# protocol     = 'HTTP/1.0'
 
-HandlerClass.protocol_version = protocol
-port_number = 55555
-server_address = ('129.22.150.55', port_number)
-httpd = HTTPServer(server_address, GroupRequestHandler)
-print('http server is starting')
+# HandlerClass.protocol_version = protocol
+# port_number = 55555
+# server_address = ('129.22.150.55', port_number)
+# httpd = HTTPServer(server_address, GroupRequestHandler)
+# print('http server is starting')
 
-print('http server is runnning on 129.22.150.55:{value}'.format(value=port_number))
-httpd.serve_forever()
+# print('http server is runnning on 129.22.150.55:{value}'.format(value=port_number))
+# httpd.serve_forever()
