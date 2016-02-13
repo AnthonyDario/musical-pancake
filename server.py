@@ -24,7 +24,9 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
 			response['bot_id'] = '26d1e43f3942fcab2aa1cc68b1'
 			requests.post(post_url, data=response)
 
-			token = "5f22d5a0b4ba0133affd089a73c6b9e5"
+		token = "5f22d5a0b4ba0133affd089a73c6b9e5"
+		if json_request['sender_type'] == 'user' and json_request['text'].lower() == 'likes'
+			#get the number of messages of yours that have been liked
 			request = requests.get('https://api.groupme.com/v3/groups/19764573/likes/for_me?token=' + token)
 			numLikes = len(request.json()['response']['messages'])
 			newResponse = {}
@@ -32,11 +34,10 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
 			newResponse['bot_id'] = '26d1e43f3942fcab2aa1cc68b1'
 			requests.post(post_url, data=newResponse)
 
-#token = "5f22d5a0b4ba0133affd089a73c6b9e5"
-#request = requests.get('https://api.groupme.com/v3/groups/19764573/likes/for_me?token=' + token)
+token = "5f22d5a0b4ba0133affd089a73c6b9e5"
+request = requests.get('https://api.groupme.com/v3/groups/19764573/likes/for_me?token=' + token)
 #request = requests.get('https://api.groupme.com/v3/groups?token=' + token)
-#print(json.load(urllib2.urlopen(request)))
-#print(len(request.json()['response']['messages']))
+print(request.json()['response']['messages'])
 
 
 # hosting the server
