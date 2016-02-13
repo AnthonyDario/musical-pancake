@@ -36,7 +36,7 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
                 response = { }
                 response['text'] = "not no = yes"
                 response['bot_id'] = dario_bot
-                requests.post(post_url, data=response)
+                requests.post(base_url + '/bots/post', data=response)
 
                 sender_id = json_request['sender_id']
                 group_info = requests.get(base_url + '/groups/' + group_id + 
