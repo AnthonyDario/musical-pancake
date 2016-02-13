@@ -9,7 +9,7 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
 
         group_id    = '19764573' 
         dario_bot   = '9af5b2ffe7a277e4f9f108f8f7'
-        post_url    = 'https://api.groupme.com/v3/bots/post'
+        base_url    = 'https://api.groupme.com/v3'
         dario_token = '9dae11a0b4b50133affd089a73c6b9e5'
 
         length = int(self.headers['Content-Length'])
