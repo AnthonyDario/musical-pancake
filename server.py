@@ -42,7 +42,7 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
                 group_info = requests.get(base_url + '/groups/' + group_id + \
                                           '?token=' + dario_token).json()
 
-                for member in group_info['members']:
+                for member in group_info['response']['members']:
                     if member['user_id'] == sender_id:
                         remove_id = member['id']
 
