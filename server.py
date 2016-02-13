@@ -1,7 +1,7 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 from SimpleHTTPServer import SimpleHTTPRequestHandler
 from dateutil.relativedelta import relativedelta
-import requests, datetime, json, re
+import requests, datetime, json, re, time
 
 class GroupRequestHandler(BaseHTTPRequestHandler):
 
@@ -54,15 +54,20 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
 
                 response = requests.post(url)
 
+		time.sleep(10)
+
                 # add the person back with a dumb name
                 url = base_url + '/groups/' + \
-                      group_id + '/members/' + \
-                      '/add?token=' + dario_token
+                      group_id + '/members/add?token=' + \
+                      dario_token
 
-                data = {'nickname': 'SO DUMB', 'user_id': sender_id}
+                person = {'nickname': 'SO DUMB', 'user_id': str(sender_id)}
+		data   = {'members': [person]}
+		print(url)
+		print data
 
-                response = requests.post(url, data=data)
-                print response
+                response = requests.post(url, data=json.dumps(data))
+                print response.text
 
 # hosting the server
 HandlerClass = SimpleHTTPRequestHandler
