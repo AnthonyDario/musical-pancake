@@ -5,10 +5,11 @@ import requests, datetime, json, re, time
 
 class GroupRequestHandler(BaseHTTPRequestHandler):
 
-    group_id    = '19764573' 
-    dario_bot   = '9af5b2ffe7a277e4f9f108f8f7'
-    base_url    = 'https://api.groupme.com/v3'
-    dario_token = '9dae11a0b4b50133affd089a73c6b9e5'
+    group_id     = '19764573' 
+    spring_bot   = '9af5b2ffe7a277e4f9f108f8f7'
+    enforcer_bot = '8a45da0fd754a90f0334ea1d43'
+    base_url     = 'https://api.groupme.com/v3'
+    dario_token  = '9dae11a0b4b50133affd089a73c6b9e5'
 
     def do_POST(self):
 
@@ -29,12 +30,12 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
                        str(rd.minutes) + ' minutes ' + \
                        str(rd.seconds) + ' seconds'
 
-                self.bot_post(text)
+                self.bot_post(text, self.spring_bot)
 
             if re.search("not no", json_request['text'].lower(), flags = 0):
 
                 # say a message
-                self.bot_post("You're the worst, you need a timeout")
+                self.bot_post("That is an illegal phrase, you are silenced", enforcer_bot)
 
                 # remove the person
                 sender_id = json_request['sender_id']
@@ -52,7 +53,7 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
                 print(statement.group(1))
 
                 # remove the person
-                self.bot_post(statement.group(1) + ' you are to be banished for ' + statement.group(2) + ' seconds')
+                self.bot_post(statement.group(1) + ' you are to be banished for ' + statement.group(2) + ' seconds', enforcer_bot)
                 sender_id = self.remove(None, statement.group(1))
 
                 # wait for appropriate amount of time
@@ -100,10 +101,10 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
 
         response = requests.post(url, data=json.dumps(data))
         
-    def bot_post(self, message):
+    def bot_post(self, message, bot):
         
         url  = self.base_url + '/bots/post'
-        data = {'text': message, 'bot_id': self.dario_bot}
+        data = {'text': message, 'bot_id': bot}
 
         requests.post(url, data=data)
 
