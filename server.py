@@ -38,6 +38,7 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
                 response['bot_id'] = dario_bot
                 requests.post(base_url + '/bots/post', data=response)
 
+                # remove the person
                 sender_id = json_request['sender_id']
                 group_info = requests.get(base_url + '/groups/' + group_id + \
                                           '?token=' + dario_token).json()
@@ -45,13 +46,23 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
                 for member in group_info['response']['members']:
                     if member['user_id'] == sender_id:
                         remove_id = member['id']
-		url = base_url + '/groups/' + group_id + '/members/' + remove_id + '/remove' + '?token=' + dario_token
 
-		print(url)
+                url = base_url + '/groups/' + \
+                      group_id + '/members/' + \
+                      remove_id + '/remove' + \
+                      '?token=' + dario_token
+
                 response = requests.post(url)
 
-		print(response)
+                # add the person back with a dumb name
+                url = base_url + '/groups/' + \
+                      group_id + '/members/' + \
+                      '/add?token=' + dario_token
 
+                data = {'nickname': 'SO DUMB', 'user_id': sender_id}
+
+                response = requests.post(url, data=data)
+                print response
 
 # hosting the server
 HandlerClass = SimpleHTTPRequestHandler
