@@ -47,7 +47,7 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
 
                 # add the person back with a dumb name
                 self.add(sender_id, "Silly Silly")
-                print response.text
+                print response
 
             statement = re.search('banish (\w+) for (\d+)', json_request['text'].lower())
             if statement:
@@ -87,7 +87,7 @@ class GroupRequestHandler(BaseHTTPRequestHandler):
               self.group_id + '/members/add?token=' + \
               self.dario_token
 
-        person = {'nickname': nickname, 'user_id': str(sender_id)}
+        person = {'nickname': nickname, 'user_id': str(user_id)}
         data   = {'members': [person]}
 
         response = requests.post(url, data=json.dumps(data))
